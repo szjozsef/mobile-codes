@@ -1,20 +1,18 @@
-.. image:: http://unmaintained.tech/badge.svg
-    :target: http://unmaintained.tech/
-    :alt: No Maintenance Intended
-
-*I do not intend to maintain this anymore.*
-
 Contains the country codes from ISO 3166-1 based on the code based on:
 
 https://github.com/deactivated/python-iso3166/
 
-But also has the MCC and MNC codes based on the Wikipedia page:
+But also has the MCC and MNC codes based on the Wikipedia page and sub-pages:
 
-http://en.wikipedia.org/wiki/List_of_mobile_country_codes
+http://en.wikipedia.org/wiki/Mobile_country_code
+
+Also from http://mcc-mnc.com/ via:
+
+https://github.com/musalbas/mcc-mnc-table
 
 As well as the latest released listing from ITU:
 
-http://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212B-2014-PDF-E.pdf
+https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212B-2018-PDF-E.pdf
 
 Note that MCC codes for a country can be:
 
