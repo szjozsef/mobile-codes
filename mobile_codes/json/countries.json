@@ -78,7 +78,7 @@
     ["United Kingdom of Great Britain and Northern Ireland", "GB", "GBR", "826", ["234", "235"]],
     ["Grenada", "GD", "GRD", "308", "352"],
     ["Georgia", "GE", "GEO", "268", ["282", "289"]],
-    ["French Guiana", "GF", "GUF", "254", "340"],
+    ["French Guiana", "GF", "GUF", "254", ["340", "742"]],
     ["Guernsey", "GG", "GGY", "831", "234"],
     ["Ghana", "GH", "GHA", "288", "620"],
     ["Gibraltar", "GI", "GIB", "292", "266"],
