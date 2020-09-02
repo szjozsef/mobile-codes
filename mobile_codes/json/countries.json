@@ -104,7 +104,7 @@
     ["Israel", "IL", "ISR", "376", "425"],
     ["Isle of Man", "IM", "IMN", "833", "234"],
     ["India", "IN", "IND", "356", ["404", "405"]],
-    ["British Indian Ocean Territory", "IO", "IOT", "086", "995"],
+    ["British Indian Ocean Territory", "IO", "IOT", "086", null],
     ["Iraq", "IQ", "IRQ", "368", "418"],
     ["Iran, Islamic Republic of", "IR", "IRN", "364", "432"],
     ["Iceland", "IS", "ISL", "352", "274"],
