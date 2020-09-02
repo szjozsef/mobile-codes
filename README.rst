@@ -10,7 +10,7 @@ Also from http://mcc-mnc.com/ via:
 
 https://github.com/musalbas/mcc-mnc-table
 
-As well as the latest released listing from ITU:
+As well as the latest released listing from ITU (http://www.itu.int/pub/T-SP-E.212B):
 
 https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212B-2018-PDF-E.pdf
 
