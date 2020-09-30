@@ -27,6 +27,8 @@ Installation
 
     $ pip install mobile-codes
 
+Then update the json files from mobile_codes/json/
+
 Usage
 =====
 
