@@ -137,7 +137,7 @@
     ["Libya", "LY", "LBY", "434", "606"],
     ["Morocco", "MA", "MAR", "504", "604"],
     ["Monaco", "MC", "MCO", "492", ["208", "212"]],
-    ["Moldova, Republic of", "MD", "MDA", "498", "259"],
+    ["Moldova, Republic of", "MD", "MDA", "498", ["259", "255"]],
     ["Montenegro", "ME", "MNE", "499", "297"],
     ["Saint Martin (French part)", "MF", "MAF", "663", "340"],
     ["Madagascar", "MG", "MDG", "450", "646"],
