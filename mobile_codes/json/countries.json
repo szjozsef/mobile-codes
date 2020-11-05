@@ -1,6 +1,6 @@
 [
     ["Andorra", "AD", "AND", "020", "213"],
-    ["United Arab Emirates", "AE", "ARE", "784", ["424", "431", "430"]],
+    ["United Arab Emirates", "AE", "ARE", "784", ["424", "430", "431"]],
     ["Afghanistan", "AF", "AFG", "004", "412"],
     ["Antigua and Barbuda", "AG", "ATG", "028", "344"],
     ["Anguilla", "AI", "AIA", "660", "365"],
@@ -180,7 +180,7 @@
     ["Poland", "PL", "POL", "616", "260"],
     ["Saint Pierre and Miquelon", "PM", "SPM", "666", "308"],
     ["Pitcairn", "PN", "PCN", "612", null],
-    ["Puerto Rico", "PR", "PRI", "630", "330"],
+    ["Puerto Rico", "PR", "PRI", "630", ["330", "310", "313"]],
     ["Palestine, State of", "PS", "PSE", "275", "425"],
     ["Portugal", "PT", "PRT", "620", "268"],
     ["Palau", "PW", "PLW", "585", "552"],
