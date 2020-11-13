@@ -215,7 +215,13 @@ def merge_wiki_itu(wikifiles=0):
         merged_operators[operator_key] = list(operator._asdict().values())
 
     for key, value in sorted(country_dict.items()):
-        countries_sorted[key] = list(value._asdict().values())
+        x_list = list(value._asdict().values())
+        if isinstance(x_list[4], list):
+            x_sorted = sorted(x_list[4])
+        else:
+            x_sorted = x_list[4]
+        x_list[4] = x_sorted
+        countries_sorted[key] = x_list
     with open(os.path.join('tmp', 'countries.json'),'w') as outfile:
         outfile.write(json.dumps(list(countries_sorted.values()), ensure_ascii=True))
     for key, value in sorted(merged_operators.items()):
