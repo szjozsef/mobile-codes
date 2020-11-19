@@ -36,7 +36,7 @@ def parse_wikipedia(wikifiles=0):
     operators = []
 
     i = 0
-	# TODO remove this parameter, and instead check the existence of the next file
+    # TODO remove this parameter, and instead check the existence of the next file
     while i <= wikifiles:
         with open(os.path.join('tmp','wiki_' + str(i)), 'r') as htmlfile:
             soup = BeautifulSoup(htmlfile, 'html.parser')
@@ -95,7 +95,7 @@ def parse_wikipedia(wikifiles=0):
 
 
 def parse_itu():
-	# The itu.json file was created from the English word document: https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212B-2018-MSW-E.docx
+    # The itu.json file was created from the English word document: https://www.itu.int/dms_pub/itu-t/opb/sp/T-SP-E.212B-2018-MSW-E.docx
     return _load_json(
         'itu.json', os.path.join('source_data', 'itu.json'),  MNCOperatorITU)
 
@@ -118,7 +118,7 @@ def merge_wiki_itu(wikifiles=0):
 
     for operator_itu in itu_operators:
         cname = operator_itu.country
-		# rename the country names to match them with the ones from iso3166
+        # rename the country names to match them with the ones from iso3166
         cname = cname.replace('*','')
         cname = cname.replace('Czech Rep.','Czechia')
         cname = cname.replace('Rep.','Republic')
@@ -159,7 +159,7 @@ def merge_wiki_itu(wikifiles=0):
 
     for operator_mcc_mnc in mcc_mnc_operators:
         iso = operator_mcc_mnc["iso"].upper()
-		# fix some iso2 country codes
+        # fix some iso2 country codes
         if iso == "FG":
             iso = "GF"
         if iso == "AN":
@@ -214,7 +214,7 @@ def merge_wiki_itu(wikifiles=0):
         operator_key = operator.mcc, operator.mnc
         merged_operators[operator_key] = list(operator._asdict().values())
 
-    for key, value in sorted(country_dict.items()):
+    for key, value in sorted(country_dict.items(), key=lambda t: t[1]):
         x_list = list(value._asdict().values())
         if isinstance(x_list[4], list):
             x_sorted = sorted(x_list[4])
