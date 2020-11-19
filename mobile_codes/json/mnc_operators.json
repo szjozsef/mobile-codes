@@ -58,7 +58,7 @@
     ["206", "00", "Proximus", "Belgacom Mobile"],
     ["206", "01", "Proximus", "Belgacom Mobile"],
     ["206", "02", "", "Infrabel"],
-    ["206", "03", "", "Citymesh NV"],
+    ["206", "03", "Citymesh Connect", "Citymesh NV"],
     ["206", "05", "Telenet", "Telenet"],
     ["206", "06", "Lycamobile", "Lycamobile sprl"],
     ["206", "07", "Vectone Mobile", "Mundio Mobile Belgium nv"],
