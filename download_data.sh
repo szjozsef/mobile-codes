@@ -6,7 +6,6 @@ popd > /dev/null
 
 cd "${MyDir}"
 
-
 if [ ! -d tmp ]; then
     mkdir tmp
 fi
@@ -43,35 +42,11 @@ if [ ${xCode} -eq 0 -o ${xCode} -eq 8 ]; then
     fi
 fi
 rm -f out.txt
-
-# Download the wikipedia page https://en.wikipedia.org/wiki/Mobile_country_code and any related sub-pages
-# TODO move this into the python script
 cd "${MyDir}"
-/usr/bin/wget -q 'https://en.wikipedia.org/wiki/Mobile_country_code' -O "tmp/wiki_0"
-additional_ulrs=$(grep 'Mobile_Network_Codes_in_' "tmp/wiki_0" | grep -oP 'href=".*#' | cut -d'"' -f2 | cut -d'"' -f1 | sort -u)
-i=0
-while read xline; do
-    if [ -z "${xline}" ]; then
-        continue
-    fi
-    (( i++ ))
-    /usr/bin/wget -q "https://en.wikipedia.org/${xline}" -O "tmp/wiki_${i}"
-done <<< ${additional_ulrs}
 
-# Download the data tabe from: musalbas/mcc-mnc-table/master/mcc-mnc-table.json
-# TODO move this into the python script
-/usr/bin/wget -q 'https://raw.githubusercontent.com/musalbas/mcc-mnc-table/master/mcc-mnc-table.json' -O "tmp/mcc-mnc-table_new.json"
-if [ -s "tmp/mcc-mnc-table_new.json" ]; then
-    mv -f tmp/mcc-mnc-table_new.json tmp/mcc-mnc-table.json
-fi
-
-# call the python parser script with number of wikipedia pages as parameter
-/usr/bin/python3 parse.py ${i}
+# call the python parser script
+/usr/bin/python3 parse.py
 
 # fix the format of the resulted json files, this should be done in the python script
 sed 's/\[/\n    \[/g' tmp/operators.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]/\]\n\]/g' > mobile_codes/json/mnc_operators.json
 sed 's/\], \[/\],\n    \[/g' tmp/countries.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]$/\]\n\]/g' | sed 's/\[\[/\[\n    \[/g' > mobile_codes/json/countries.json
-if [ -f tmp/mcc-mnc-table.json ]; then
-    rm -f tmp/mcc-mnc-table.json
-fi
-rm -f tmp/wiki_* 2>/dev/null
