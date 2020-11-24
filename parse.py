@@ -53,7 +53,7 @@ def parse_wikipedia():
     while i <= wikifiles:
         if (i > 0):
             htmlfile = requests.get('https://en.wikipedia.org' + subpages[i - 1]).text
-        soup = BeautifulSoup(htmlfile, 'html.parser')
+            soup = BeautifulSoup(htmlfile, 'html.parser')
         for table in soup.find_all('table', class_="wikitable", attrs={'width': "100%"}):
             hs = table.find_previous_sibling('h4')
             iso = ""
