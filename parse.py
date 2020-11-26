@@ -10,8 +10,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from collections import defaultdict, namedtuple, OrderedDict
-#from mobile_codes import MNCOperator
-
 
 MNC_OPERATOR_FIELDS = ('mcc', 'mnc', 'brand', 'operator')
 COUNTRY_FIELDS = ('name', 'iso2', 'iso3', 'numeric', 'mccs')
@@ -235,16 +233,26 @@ def merge_wiki_itu():
             x_sorted = x_list[4]
         x_list[4] = x_sorted
         countries_sorted[key] = x_list
-    with open(os.path.join('tmp', 'countries.json'),'w') as outfile:
-        outfile.write(json.dumps(list(countries_sorted.values()), ensure_ascii=True))
+    with open(os.path.join('mobile_codes', 'json', 'countries.json'),'w') as outfile:
+        json_string = json.dumps(list(countries_sorted.values()), ensure_ascii=True)
+        # Should be a better way to obtain the desired custom pretty formatted json file, maybe with a custom class ...
+        json_string = re.sub(r'\], \[', '],\n    [', json_string)
+        json_string = re.sub(r'\]\]$',']\n]',json_string)
+        json_string = re.sub(r'\[\[','[\n    [',json_string) + '\n'
+        outfile.write(json_string)
     for key, value in sorted(merged_operators.items()):
         sorted_operators[key] = value
     return list(sorted_operators.values())
 
 def write_operators(operators):
-    with open(os.path.join('tmp', 'mnc_operators.json'),
+    with open(os.path.join('mobile_codes', 'json', 'mnc_operators.json'),
               'w') as outfile:
-        outfile.write(json.dumps(operators, ensure_ascii=True))
+        json_string = json.dumps(operators, ensure_ascii=True)
+        # Should be a better way to obtain the desired custom pretty formatted json file, maybe with a custom class ...
+        json_string = re.sub(r'\], \[', '],\n    [', json_string)
+        json_string = re.sub(r'\]\]$',']\n]',json_string)
+        json_string = re.sub(r'\[\[','[\n    [',json_string) + '\n'
+        outfile.write(json_string)
 
 if __name__ == '__main__':
     write_operators(merge_wiki_itu())

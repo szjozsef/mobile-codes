@@ -6,10 +6,6 @@ popd > /dev/null
 
 cd "${MyDir}"
 
-if [ ! -d tmp ]; then
-    mkdir tmp
-fi
-
 if [ ! -d iso3166 ]; then
     mkdir iso3166
 fi
@@ -46,7 +42,3 @@ cd "${MyDir}"
 
 # call the python parser script
 /usr/bin/python3 parse.py
-
-# fix the format of the resulted json files, this should be done in the python script
-sed 's/\[/\n    \[/g' tmp/mnc_operators.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]/\]\n\]/g' > mobile_codes/json/mnc_operators.json
-sed 's/\], \[/\],\n    \[/g' tmp/countries.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]$/\]\n\]/g' | sed 's/\[\[/\[\n    \[/g' > mobile_codes/json/countries.json
