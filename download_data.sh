@@ -48,5 +48,5 @@ cd "${MyDir}"
 /usr/bin/python3 parse.py
 
 # fix the format of the resulted json files, this should be done in the python script
-sed 's/\[/\n    \[/g' tmp/operators.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]/\]\n\]/g' > mobile_codes/json/mnc_operators.json
+sed 's/\[/\n    \[/g' tmp/mnc_operators.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]/\]\n\]/g' > mobile_codes/json/mnc_operators.json
 sed 's/\], \[/\],\n    \[/g' tmp/countries.json | sed 's/ $//g' | grep -v ^$ | sed 's/    \[$/\[/g' | sed 's/\]\]$/\]\n\]/g' | sed 's/\[\[/\[\n    \[/g' > mobile_codes/json/countries.json

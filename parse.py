@@ -242,7 +242,7 @@ def merge_wiki_itu():
     return list(sorted_operators.values())
 
 def write_operators(operators):
-    with open(os.path.join('tmp', 'operators.json'),
+    with open(os.path.join('tmp', 'mnc_operators.json'),
               'w') as outfile:
         outfile.write(json.dumps(operators, ensure_ascii=True))
 
