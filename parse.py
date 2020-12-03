@@ -35,7 +35,17 @@ def parse_wikipedia():
     operators = []
 
     subpages = []
-    htmlfile = requests.get('https://en.wikipedia.org/wiki/Mobile_country_code').text
+    try:
+        response = requests.get('https://en.wikipedia.org/wiki/Mobile_country_code', timeout=30)
+        response.raise_for_status()
+    except HTTPError as http_err:
+        print("HTTP error occurred: {}".format(http_err))
+        sys.exit(1)
+    except Exception as err:
+        print("Other error occurred: {}".format(err))
+        sys.exit(1)
+    else:
+        htmlfile = response.text
     soup = BeautifulSoup(htmlfile, 'html.parser')
     for table in soup.find_all('table', class_="wikitable"):
         for links in table.find_all('a', href=True):
@@ -50,7 +60,17 @@ def parse_wikipedia():
     i = 0
     while i <= wikifiles:
         if (i > 0):
-            htmlfile = requests.get('https://en.wikipedia.org' + subpages[i - 1]).text
+            try:
+                response = requests.get('https://en.wikipedia.org' + subpages[i - 1], timeout=30)
+                response.raise_for_status()
+            except HTTPError as http_err:
+                print("HTTP error occurred: {}".format(http_err))
+                sys.exit(1)
+            except Exception as err:
+                print("Other error occurred: {}".format(err))
+                sys.exit(1)
+            else:
+                htmlfile = response.text
             soup = BeautifulSoup(htmlfile, 'html.parser')
         for table in soup.find_all('table', class_="wikitable", attrs={'width': "100%"}):
             hs = table.find_previous_sibling('h4')
@@ -108,7 +128,17 @@ def parse_itu():
         'itu.json', os.path.join('source_data', 'itu.json'),  MNCOperatorITU)
 
 def parse_mcc_mnc_table():
-    jsonfile = requests.get('https://raw.githubusercontent.com/musalbas/mcc-mnc-table/master/mcc-mnc-table.json').text
+    try:
+        response = requests.get('https://raw.githubusercontent.com/musalbas/mcc-mnc-table/master/mcc-mnc-table.json', timeout=30)
+        response.raise_for_status()
+    except HTTPError as http_err:
+        print("HTTP error occurred: {}".format(http_err))
+        sys.exit(1)
+    except Exception as err:
+        print("Other error occurred: {}".format(err))
+        sys.exit(1)
+    else:
+        jsonfile = response.text
     if len(jsonfile) > 0:
         return json.loads(jsonfile)
     else:

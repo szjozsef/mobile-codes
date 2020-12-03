@@ -12,6 +12,7 @@ fi
 
 # Download from github the deactivated/python-iso3166 library
 # TODO if possible install it as a python package, on my system this was not possible
+# pip install iso3166
 cd iso3166
 # TODO curl 7.68.0 has native etag support with : --etag-compare etag.txt --etag-save etag.txt
 header=""
