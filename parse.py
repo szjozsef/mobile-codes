@@ -35,91 +35,66 @@ def parse_wikipedia():
     operators = []
 
     subpages = []
-    try:
-        response = requests.get('https://en.wikipedia.org/wiki/Mobile_country_code', timeout=30)
-        response.raise_for_status()
-    except HTTPError as http_err:
-        print("HTTP error occurred: {}".format(http_err))
-        sys.exit(1)
-    except Exception as err:
-        print("Other error occurred: {}".format(err))
-        sys.exit(1)
-    else:
-        htmlfile = response.text
-    soup = BeautifulSoup(htmlfile, 'html.parser')
-    for table in soup.find_all('table', class_="wikitable"):
-        for links in table.find_all('a', href=True):
-            if links.text.startswith('List of mobile network codes in'):
-                match = re.search('(.+?)#',links['href'])
-                if match:
-                    url = match.group(1)
-                    if url not in subpages:
-                        subpages.append(url)
-    subpages.sort()
-    wikifiles = len(subpages)
     i = 0
-    while i <= wikifiles:
-        if (i > 0):
-            try:
-                response = requests.get('https://en.wikipedia.org' + subpages[i - 1], timeout=30)
-                response.raise_for_status()
-            except HTTPError as http_err:
-                print("HTTP error occurred: {}".format(http_err))
-                sys.exit(1)
-            except Exception as err:
-                print("Other error occurred: {}".format(err))
-                sys.exit(1)
-            else:
-                htmlfile = response.text
-            soup = BeautifulSoup(htmlfile, 'html.parser')
-        for table in soup.find_all('table', class_="wikitable", attrs={'width': "100%"}):
-            hs = table.find_previous_sibling('h4')
-            iso = ""
-            if hs is not None:
-                hs = hs.find('span', class_="mw-headline")
-                if hs is not None:
-                    if hs.a is not None:
-                        i_tag = hs.a
-                        i_tag.decompose()
-                    iso = re.sub(r'\(.*\)', "", hs.text.strip().strip('\n').replace('\n','').replace('–','').replace(' ',''))
-                    if iso == "GE-AB":
-                        iso = "GE"
-                    if "-" in iso:
-                        print("Another iso with region code, please check !: " + iso)
-            for row in table.find_all('tr'):
-                mcc, mnc, brand, operator = row.find_all_next("td", limit=4)
-                if mcc.text in ['MCC', '']:
-                    continue
-                if mcc.div is not None:
-                    i_tag = mcc.div
-                    i_tag.decompose()
-                if mcc.span is not None:
-                    i_tag = mcc.span
-                    i_tag.decompose()
-                mcc = mcc.text.strip().strip('\n').replace('\n','')
-                if mnc.div is not None:
-                    i_tag = mnc.div
-                    i_tag.decompose()
-                if mnc.span is not None:
-                    i_tag = mnc.span
-                    i_tag.decompose()
-                mnc = mnc.text.strip().strip('\n').replace('\n','')
-                if operator.div is not None:
-                    i_tag = operator.div
-                    i_tag.decompose()
-                if operator.span is not None:
-                    i_tag = operator.span
-                    i_tag.decompose()
-                operator = operator.text.strip().strip('\n').replace('\n','')
-                if brand.div is not None:
-                    i_tag = brand.div
-                    i_tag.decompose()
-                if brand.span is not None:
-                    i_tag = brand.span
-                    i_tag.decompose()
-                brand = brand.text.strip().strip('\n').replace('\n','')
-                operators.append(MNCOperatorISO(mcc=mcc, mnc=mnc, brand=brand, operator=operator, iso=iso))
+    with open(os.path.join('tmp', 'wiki_' + str(i)),'r') as infile:
+        htmlfile = infile.read()
+    while i <= 10:
+        fpath = os.path.join('tmp', 'wiki_' + str(i))
+        if os.path.isfile(fpath):
+            with open(fpath,'r') as infile:
+                htmlfile = infile.read()
+                soup = BeautifulSoup(htmlfile, 'html.parser')
+                for table in soup.find_all('table', class_="wikitable", attrs={'width': "100%"}):
+                    hs = table.find_previous_sibling('h4')
+                    iso = ""
+                    if hs is not None:
+                        hs = hs.find('span', class_="mw-headline")
+                        if hs is not None:
+                            if hs.a is not None:
+                                i_tag = hs.a
+                                i_tag.decompose()
+                            iso = re.sub(r'\(.*\)', "", hs.text.strip().strip('\n').replace('\n','').replace('–','').replace(' ',''))
+                            if iso == "GE-AB":
+                                iso = "GE"
+                            if "-" in iso:
+                                print("Another iso with region code, please check !: " + iso)
+                    for row in table.find_all('tr'):
+                        mcc, mnc, brand, operator = row.find_all_next("td", limit=4)
+                        if mcc.text in ['MCC', '']:
+                            continue
+                        if mcc.div is not None:
+                            i_tag = mcc.div
+                            i_tag.decompose()
+                        if mcc.span is not None:
+                            i_tag = mcc.span
+                            i_tag.decompose()
+                        mcc = mcc.text.strip().strip('\n').replace('\n','')
+                        if mnc.div is not None:
+                            i_tag = mnc.div
+                            i_tag.decompose()
+                        if mnc.span is not None:
+                            i_tag = mnc.span
+                            i_tag.decompose()
+                        mnc = mnc.text.strip().strip('\n').replace('\n','')
+                        if operator.div is not None:
+                            i_tag = operator.div
+                            i_tag.decompose()
+                        if operator.span is not None:
+                            i_tag = operator.span
+                            i_tag.decompose()
+                        operator = operator.text.strip().strip('\n').replace('\n','')
+                        if brand.div is not None:
+                            i_tag = brand.div
+                            i_tag.decompose()
+                        if brand.span is not None:
+                            i_tag = brand.span
+                            i_tag.decompose()
+                        brand = brand.text.strip().strip('\n').replace('\n','')
+                        operators.append(MNCOperatorISO(mcc=mcc, mnc=mnc, brand=brand, operator=operator, iso=iso))
+        else:
+            break
         i += 1
+
     return operators
 
 def parse_itu():
@@ -128,22 +103,12 @@ def parse_itu():
         'itu.json', os.path.join('source_data', 'itu.json'),  MNCOperatorITU)
 
 def parse_mcc_mnc_table():
-    try:
-        response = requests.get('https://raw.githubusercontent.com/musalbas/mcc-mnc-table/master/mcc-mnc-table.json', timeout=30)
-        response.raise_for_status()
-    except HTTPError as http_err:
-        print("HTTP error occurred: {}".format(http_err))
-        sys.exit(1)
-    except Exception as err:
-        print("Other error occurred: {}".format(err))
-        sys.exit(1)
-    else:
-        jsonfile = response.text
-    if len(jsonfile) > 0:
-        return json.loads(jsonfile)
+    with open(os.path.join('tmp', 'mcc-mnc-table.json'),'r') as infile:
+        htmlfile = infile.read()
+    if len(htmlfile) > 0:
+        return json.loads(htmlfile)
     else:
         return {}
-
 
 def merge_wiki_itu():
     wiki_operators = parse_wikipedia()

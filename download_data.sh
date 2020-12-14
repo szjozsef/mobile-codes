@@ -42,4 +42,5 @@ rm -f out.txt
 cd "${MyDir}"
 
 # call the python parser script
+/usr/bin/python3 data_download.py
 /usr/bin/python3 parse.py
