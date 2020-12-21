@@ -46,6 +46,8 @@ def parse_wikipedia():
                 soup = BeautifulSoup(htmlfile, 'html.parser')
                 for table in soup.find_all('table', class_="wikitable", attrs={'width': "100%"}):
                     hs = table.find_previous_sibling('h4')
+                    if hs is None:
+                        hs = table.find_previous_sibling('h3')
                     iso = ""
                     if hs is not None:
                         hs = hs.find('span', class_="mw-headline")
@@ -53,11 +55,42 @@ def parse_wikipedia():
                             if hs.a is not None:
                                 i_tag = hs.a
                                 i_tag.decompose()
-                            iso = re.sub(r'\(.*\)', "", hs.text.strip().strip('\n').replace('\n','').replace('–','').replace(' ',''))
+                            iso = re.sub(r'\(.*\)', "", hs.text.strip().strip('\n').replace('\n','').replace('–','').replace(' ',''),)
                             if iso == "GE-AB":
                                 iso = "GE"
+                            if iso == "British Indian Ocean Territory":
+                                iso = "IO"
                             if "-" in iso:
                                 print("Another iso with region code, please check !: " + iso)
+                        prev = table.find_previous_sibling()
+                        for li in prev.find_all("li"):
+                            if li.a is not None:
+                                i_tag = li.a
+                                i_tag.decompose()
+                            iso_ = re.sub(r".* – ", "", li.text.strip().strip('\n').replace('\n',''),)
+                            if iso_ == "GE-AB":
+                                iso_ = "GE"
+                            if iso_ == "British Indian Ocean Territory":
+                                iso_ = "IO"
+                            if "-" in iso_:
+                                print("Another iso with region code, please check !: " + iso_)
+                            if iso_ not in iso:
+                                iso += "/" + iso_
+                        if "IT" in iso:
+                            iso_ = "VA"
+                            if iso_ not in iso:
+                                iso += "/" + iso_
+                            iso_ = "SM"
+                            if iso_ not in iso:
+                                iso += "/" + iso_
+                        if "FI" in iso:
+                            iso_ = "AX"
+                            if iso_ not in iso:
+                                iso += "/" + iso_
+                        if "MA" in iso:
+                            iso_ = "EH"
+                            if iso_ not in iso:
+                                iso += "/" + iso_
                     for row in table.find_all('tr'):
                         mcc, mnc, brand, operator = row.find_all_next("td", limit=4)
                         if mcc.text in ['MCC', '']:
